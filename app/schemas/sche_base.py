@@ -1,9 +1,13 @@
 from typing import Optional, TypeVar, Generic
 from pydantic.generics import GenericModel
-
+from humps import camelize
 from pydantic import BaseModel
 
 T = TypeVar("T")
+
+
+def to_camel(string):
+    return camelize(string)
 
 
 class ResponseSchemaBase(BaseModel):
@@ -40,6 +44,14 @@ class DataResponse(ResponseSchemaBase, GenericModel, Generic[T]):
         self.message = 'Thành công'
         self.data = data
         return self
+
+
+class MappingByFieldName(BaseModel):
+    class Config:
+        orm_mode = True
+        alias_generator = to_camel
+        allow_population_by_field_name = True
+        use_enum_values = True
 
 
 class MetadataSchema(BaseModel):

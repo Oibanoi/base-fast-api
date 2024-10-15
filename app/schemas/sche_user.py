@@ -4,9 +4,10 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 from app.helpers.enums import UserRole
+from app.schemas.sche_base import MappingByFieldName
 
 
-class UserBase(BaseModel):
+class UserBase(MappingByFieldName):
     full_name: Optional[str] = None
     email: Optional[EmailStr] = None
     is_active: Optional[bool] = True
@@ -32,20 +33,20 @@ class UserCreateRequest(UserBase):
     role: UserRole = UserRole.GUEST
 
 
-class UserRegisterRequest(BaseModel):
+class UserRegisterRequest(MappingByFieldName):
     full_name: str
     email: EmailStr
     password: str
     role: UserRole = UserRole.GUEST
 
 
-class UserUpdateMeRequest(BaseModel):
+class UserUpdateMeRequest(MappingByFieldName):
     full_name: Optional[str]
     email: Optional[EmailStr]
     password: Optional[str]
 
 
-class UserUpdateRequest(BaseModel):
+class UserUpdateRequest(MappingByFieldName):
     full_name: Optional[str]
     email: Optional[EmailStr]
     password: Optional[str]
